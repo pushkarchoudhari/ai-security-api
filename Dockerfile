@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------
 # Build stage -- compilers and build tooling stay here and never ship.
 # ---------------------------------------------------------------------------
-FROM python:3.12-slim AS builder
+FROM python:3.14-slim AS builder
 
 ENV PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir .
 # ---------------------------------------------------------------------------
 # Runtime stage -- no build toolchain, no package manager state, non-root.
 # ---------------------------------------------------------------------------
-FROM python:3.12-slim AS runtime
+FROM python:3.14-slim AS runtime
 
 LABEL org.opencontainers.image.title="ai-security-api" \
       org.opencontainers.image.description="Secure AI enterprise API with layered LLM security controls" \
