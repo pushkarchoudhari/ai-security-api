@@ -10,8 +10,18 @@ venv/
 # Environment
 .env
 
-# Logs
+# Logs and runtime data
 audit.log
+data/
+artifacts/
+
+# Test and lint caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
 
 # OS
 .DS_Store
