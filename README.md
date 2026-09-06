@@ -131,6 +131,15 @@ to the generic handler.
 
 ## Quick start
 
+### In the browser, nothing to install
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/pushkarchoudhari/ai-security-api)
+
+Opens a Linux container with Python 3.12, Docker, and the dev dependencies
+already installed. The terminal prints the available commands on first attach.
+
+### Locally
+
 ```bash
 git clone https://github.com/pushkarchoudhari/ai-security-api.git
 cd ai-security-api
