@@ -1,0 +1,25 @@
+# Keeps the two supply-chain surfaces current: Python dependencies (which
+# pip-audit gates on) and GitHub Actions (which run with repository
+# credentials, so a stale or hijacked action is a real exposure).
+
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dev-tooling:
+        patterns: ["ruff", "mypy", "bandit", "pytest*", "pip-audit", "coverage"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: weekly
