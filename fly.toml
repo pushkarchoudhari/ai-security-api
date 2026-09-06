@@ -1,0 +1,54 @@
+# Fly.io deployment.
+#
+# Before the first deploy:
+#   fly launch --no-deploy --name <your-unique-app-name>
+#   fly volumes create audit_data --size 1 --region <region>
+#   fly deploy
+#
+# The app name below must be globally unique on Fly -- change it to your own.
+
+app = "ai-security-api"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  # The public demo runs the deterministic classifier: no API key is deployed,
+  # so the demo cannot be turned into free inference or used to drain a quota.
+  # Set LLM_MODE=live and `fly secrets set GEMINI_API_KEY=...` to enable Gemini.
+  LLM_MODE = "mock"
+  AUDIT_LOG_PATH = "/data/audit.log"
+  # Fly terminates TLS and proxies to the app, so X-Forwarded-For is set by
+  # infrastructure we control and is safe to use as the rate-limit identity.
+  TRUST_PROXY_HEADERS = "true"
+  RATE_LIMIT = "10/minute"
+
+# Persists the audit hash chain across restarts. Without it the chain restarts
+# from genesis on every deploy, which would undercut the whole point of it.
+[[mounts]]
+  source = "audit_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 50
+    hard_limit = 100
+
+[[http_service.checks]]
+  interval = "30s"
+  timeout = "5s"
+  grace_period = "10s"
+  method = "GET"
+  path = "/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

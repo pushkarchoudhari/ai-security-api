@@ -1,0 +1,53 @@
+# Local mirror of the CI quality gates, so failures surface before push.
+#
+#   pip install pre-commit && pre-commit install
+#   pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.0
+    hooks:
+      - id: bandit
+        args: ["-c", "pyproject.toml", "-r"]
+        files: ^app/
+        additional_dependencies: ["bandit[toml]"]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+
+  # The AI security gates run locally too -- they need no network or API key,
+  # which is the whole reason they can sit in a pre-commit hook at all.
+  - repo: local
+    hooks:
+      - id: redteam
+        name: prompt-injection red-team gate
+        entry: python -m redteam.run_redteam
+        language: system
+        pass_filenames: false
+        files: ^(app/security/injection\.py|redteam/)
+
+      - id: evals
+        name: intent classification eval gate
+        entry: python -m evals.run_evals
+        language: system
+        pass_filenames: false
+        files: ^(app/llm/|evals/)
