@@ -1,0 +1,3 @@
+"""Secure AI Enterprise API."""
+
+__version__ = "2.0.0"
