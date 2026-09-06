@@ -1,7 +1,8 @@
 """Application configuration.
 
 All runtime behaviour is driven from environment variables so the same image can
-run locally, in CI (offline), and on a public demo host without code changes.
+run locally, in CI (offline), and on a publicly reachable host without code
+changes.
 """
 
 from __future__ import annotations
@@ -31,8 +32,8 @@ class Settings(BaseSettings):
 
     # --- LLM -----------------------------------------------------------------
     # "mock" runs the deterministic keyword classifier and never leaves the
-    # process. This is the default so that CI, tests, and the public demo cost
-    # nothing and cannot be abused into draining a real API quota.
+    # process. This is the default so that CI, tests, and any publicly reachable
+    # instance cost nothing and cannot be abused into draining a real API quota.
     llm_mode: Literal["live", "mock"] = "mock"
     gemini_api_key: str | None = None
     gemini_model: str = "gemini-3.1-flash-lite"

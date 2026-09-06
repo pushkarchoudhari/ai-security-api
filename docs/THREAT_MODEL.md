@@ -136,8 +136,9 @@ Per-client rate limiting, with `X-Forwarded-For` honoured **only** when
 `TRUST_PROXY_HEADERS` is explicitly enabled — on a directly exposed service the
 header is caller-controlled and trusting it would let anyone reset their own
 bucket. Live model calls are capped by a hard budget that degrades to the
-deterministic classifier rather than failing. The public demo runs in mock mode
-with no API key deployed at all, so it cannot be turned into free inference.
+deterministic classifier rather than failing. Any publicly reachable instance
+is intended to run in mock mode with no API key deployed at all, so it cannot
+be turned into free inference.
 
 **Residual risk:** rate-limit state is in-process. Multiple instances each
 enforce their own bucket; a shared store (Redis) is the production upgrade.

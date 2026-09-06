@@ -14,7 +14,7 @@ primary_region = "iad"
   dockerfile = "Dockerfile"
 
 [env]
-  # The public demo runs the deterministic classifier: no API key is deployed,
+  # Deploys run the deterministic classifier: no API key is deployed,
   # so the demo cannot be turned into free inference or used to drain a quota.
   # Set LLM_MODE=live and `fly secrets set GEMINI_API_KEY=...` to enable Gemini.
   LLM_MODE = "mock"

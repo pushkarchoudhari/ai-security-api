@@ -7,7 +7,7 @@ Design points that matter for security review:
     stops a missing GEMINI_API_KEY from crashing the process at startup.
   * Live calls are capped by a hard budget. Exhausting it degrades to the
     deterministic classifier rather than failing requests or draining a quota --
-    the public demo cannot be turned into someone else's free inference.
+    a publicly reachable instance cannot become someone else's free inference.
   * Model output is scanned by the output guardrails before it is parsed or
     trusted, and the action is clamped to a known set in the Intent model.
 """

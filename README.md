@@ -252,8 +252,11 @@ exist in the source.
 
 ## Deployment
 
-The public demo runs on Fly.io in **mock mode with no API key deployed**, so it
-cannot be turned into free inference or used to drain a quota.
+There is no hosted instance. To try the project, use the Codespaces badge above
+or run it locally — both take about a minute and neither costs anything.
+
+Deployment configuration is included and wired into CI, but left switched off.
+`fly.toml` is ready to use:
 
 ```bash
 fly launch --no-deploy --name <your-app-name>
@@ -261,9 +264,14 @@ fly volumes create audit_data --size 1 --region <region>
 fly deploy
 ```
 
-CI deploys automatically when the repository variable `FLY_DEPLOY` is `true` and
-the `FLY_API_TOKEN` secret is set. Without both, the pipeline stops after
-publishing a signed image to GHCR.
+CI deploys automatically once the repository variable `FLY_DEPLOY` is set to
+`true`, `FLY_APP_NAME` is set, and the `FLY_API_TOKEN` secret exists. Without
+all three the pipeline stops after publishing a signed image to GHCR, which is
+a valid end state rather than a failure.
+
+Whatever it is deployed to should run in **mock mode with no API key present**.
+The deterministic classifier costs nothing and cannot be abused into draining a
+quota, which matters for anything publicly reachable.
 
 ---
 
