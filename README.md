@@ -135,8 +135,12 @@ to the generic handler.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/pushkarchoudhari/ai-security-api)
 
-Opens a Linux container with Python 3.12, Docker, and the dev dependencies
-already installed. The terminal prints the available commands on first attach.
+Opens a Linux environment with Python and Docker preinstalled. Then:
+
+```bash
+pip install -e ".[dev]"     # install the project
+docker compose up --build   # or run it in Docker
+```
 
 ### Locally
 
