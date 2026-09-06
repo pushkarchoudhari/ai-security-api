@@ -1,0 +1,97 @@
+# Golden set for intent classification.
+#
+# Runs against whichever classifier is configured: the keyword fallback in mock
+# mode, Gemini in live mode. The same set therefore catches two different
+# regressions -- a bad prompt change, and a bad fallback change -- which matters
+# because the fallback serves every request whenever the model is unavailable.
+#
+# Kept deliberately mundane. These are the questions the API actually exists to
+# answer; adversarial input is covered by redteam/corpus.yaml.
+
+cases:
+  # --- create_ticket --------------------------------------------------------
+  - question: "Create a support ticket for login page not loading"
+    expected: create_ticket
+  - question: "Raise a ticket about the printer being offline"
+    expected: create_ticket
+  - question: "I need to report a bug in the checkout flow"
+    expected: create_ticket
+  - question: "Open a support request for my laptop not charging"
+    expected: create_ticket
+  - question: "File a complaint about slow customer service"
+    expected: create_ticket
+  - question: "There is an issue with the VPN, please log it"
+    expected: create_ticket
+  - question: "Create a ticket for onboarding a new engineer"
+    expected: create_ticket
+  - question: "Log a support ticket regarding the broken dashboard"
+    expected: create_ticket
+  - question: "Something is broken with the email server"
+    expected: create_ticket
+  - question: "I want to raise a problem with the mobile app"
+    expected: create_ticket
+
+  # --- generate_report ------------------------------------------------------
+  - question: "Generate this week's sales report"
+    expected: generate_report
+  - question: "Show me the revenue numbers"
+    expected: generate_report
+  - question: "I need the weekly analytics summary"
+    expected: generate_report
+  - question: "What were the total sales figures?"
+    expected: generate_report
+  - question: "Give me a breakdown of revenue by region"
+    expected: generate_report
+  - question: "How many deals were closed this week?"
+    expected: generate_report
+  - question: "Pull the performance numbers for this quarter"
+    expected: generate_report
+  - question: "Sales summary please"
+    expected: generate_report
+  - question: "Generate the weekly report"
+    expected: generate_report
+  - question: "What is our total revenue?"
+    expected: generate_report
+
+  # --- lookup_employee ------------------------------------------------------
+  - question: "Find employee Priya"
+    expected: lookup_employee
+  - question: "Look up Vikram Singh"
+    expected: lookup_employee
+  - question: "Who is Rahul Mehta?"
+    expected: lookup_employee
+  - question: "Search for Ananya in the directory"
+    expected: lookup_employee
+  - question: "Find the employee with ID E003"
+    expected: lookup_employee
+  - question: "Look up who works in Engineering"
+    expected: lookup_employee
+  - question: "Get me contact details for Priya Sharma"
+    expected: lookup_employee
+  - question: "Which employee is called Vikram?"
+    expected: lookup_employee
+  - question: "Search employee Iyer"
+    expected: lookup_employee
+  - question: "Find Mehta"
+    expected: lookup_employee
+
+  # --- general_answer -------------------------------------------------------
+  # Includes the directory-dump phrasings: a lookup with no subject must not
+  # become an empty query, so these are expected to fall through to a help
+  # response rather than reaching the employee search.
+  - question: "Find all employees"
+    expected: general_answer
+  - question: "List everyone in the company"
+    expected: general_answer
+  - question: "Show me the whole team"
+    expected: general_answer
+  - question: "What is the weather today?"
+    expected: general_answer
+  - question: "Tell me a joke"
+    expected: general_answer
+  - question: "What can you do?"
+    expected: general_answer
+  - question: "How does this API work?"
+    expected: general_answer
+  - question: "Good morning"
+    expected: general_answer
